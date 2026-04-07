@@ -3,6 +3,7 @@ const { protect } = require("../middlewares/authMiddleware");
 const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
+const os = require("os");
 
 const { uploadDocument } = require("../controllers/documentController");
 
@@ -10,11 +11,7 @@ const router = express.Router();
 
 const storage = multer.diskStorage({
   destination(req, file, cb) {
-    const dir = "uploads/";
-    if (!fs.existsSync(dir)){
-      fs.mkdirSync(dir);
-    }
-    cb(null, dir);
+    cb(null, os.tmpdir());
   },
   filename(req, file, cb) {
     cb(
